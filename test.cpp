@@ -137,11 +137,11 @@ int main() {
     // what we will be testing for with the following method.
     // Alternatively, you can also navigate to the line above 
     // where the test description is stored to read it.
-    cout << bst_test.getTestDescription(1) << endl;
+    //cout << bst_test.getTestDescription(1) << endl;
 
     // Tests can be run one at a time to get their result
-    bool result = bst_test.test1();
-    cout << "Test1: " << get_status_str(result) << endl;
+//    bool result = bst_test.test1();
+//    cout << "Test1: " << get_status_str(result) << endl;
 
     // Or you can run all of the tests at once and generate a report.
     bst_test.runAllTests();
@@ -244,20 +244,82 @@ bool BinarySearchTreeTest::test2() {
 
 // Test 3: Insert, remove, and size on linear list formation with three elements
 bool BinarySearchTreeTest::test3() {
-    // Implement a test case which does the above description.
-    return false;
+
+    // Test set up.
+    BinarySearchTree bst;
+
+    // insert in a linear fashion
+    ASSERT_TRUE(bst.insert(5))
+    ASSERT_TRUE(bst.insert(6))
+    ASSERT_TRUE(bst.insert(7))
+    ASSERT_TRUE(bst.insert(8))
+    ASSERT_TRUE(bst.size() == 4)
+
+    // remove an element
+    ASSERT_TRUE(bst.remove(6))
+    bst.print();
+    ASSERT_TRUE(bst.size() == 3)
+    ASSERT_FALSE(bst.remove(6))
+    bst.print();
+
+    // remove the root
+    ASSERT_TRUE(bst.remove(5))
+    bst.print();
+    ASSERT_TRUE(bst.size() == 2)
+    ASSERT_TRUE(bst.exists(7))
+    ASSERT_TRUE(bst.exists(8))
+
+    // What is the max value of the tree.
+    ASSERT_TRUE(bst.max() == 8 && bst.min() == 7)
+
+    // remove all
+    ASSERT_TRUE(bst.remove(7))
+    ASSERT_TRUE(bst.remove(8))
+    ASSERT_FALSE(bst.remove(8))
+
+    // Check that size is expected.
+    ASSERT_TRUE(bst.size() == 0)
+
+    return true;
 }
 
 // Test 4: Test removal of a node with one child
 bool BinarySearchTreeTest::test4() {
-    // Implement a test case which does the above description.
-    return false;
+
+    // Test set up.
+    BinarySearchTree bst;
+
+    // Insert a bunch of nodes into the tree in the following order.
+    BinarySearchTree::DataType in[7] = {8, 3, 1, 2, 10, 9, 15};
+    for (auto val : in) {
+        ASSERT_TRUE(bst.insert(val))
+    }
+
+    ASSERT_TRUE(bst.remove(2))
+    ASSERT_TRUE(bst.remove(3))
+    ASSERT_TRUE(bst.getRootNode()->left->val == 1)
+    return true;
 }
 
 // Test 5: Insert multiple elements and remove till nothing remains
 bool BinarySearchTreeTest::test5() {
-    // Implement a test case which does the above description.
-    return false;
+    // Test set up.
+    BinarySearchTree bst;
+
+    // Insert a bunch of nodes into the tree in the following order.
+    BinarySearchTree::DataType in[7] = {5, 4,6, 10, -1, 3, 1};
+    for (auto val : in) {
+        ASSERT_TRUE(bst.insert(val))
+    }
+
+    ASSERT_TRUE(bst.size() == 7)
+
+    for (auto val : in) {
+        ASSERT_TRUE(bst.remove(val))
+    }
+
+    ASSERT_TRUE(bst.size() == 0)
+    return true;
 }
 
 // Test 6: Test removal of root node when both children of root have two children
@@ -330,8 +392,30 @@ bool BinarySearchTreeTest::test7() {
 
 // Test 8: Lots of inserts and removes
 bool BinarySearchTreeTest::test8() {
-    // Implement a test case which does the above description.
-    return false;
+
+    // Test set up.
+    BinarySearchTree bst;
+
+    // Insert a bunch of nodes into the tree in the following order.
+    BinarySearchTree::DataType in[7] = {8, 3, 10, 1, 6, 9, 15};
+    for (auto val : in) {
+        ASSERT_TRUE(bst.insert(val))
+    }
+
+    // Delete a bunch of nodes into the tree in the following order.
+    BinarySearchTree::DataType out[3] = {8, 3, 10};
+    for (auto val : out) {
+        ASSERT_TRUE(bst.remove(val))
+    }
+
+    // Insert a bunch of nodes into the tree in the following order.
+    BinarySearchTree::DataType in2[5] = {8, 3, 2, 100, 200};
+    for (auto val : in2) {
+        ASSERT_TRUE(bst.insert(val))
+    }
+
+    bst.print();
+    return true;
 }
 
 
