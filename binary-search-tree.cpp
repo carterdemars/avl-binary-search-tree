@@ -1,5 +1,6 @@
 #include "binary-search-tree.h"
 #include "iostream"
+#include <queue>
 
 using namespace std;
 
@@ -93,9 +94,41 @@ void inOrderTraversal(BinarySearchTree::Node *T) {
     inOrderTraversal(T->right);
 }
 
+//void BinarySearchTree::print() const {
+//    inOrderTraversal(root_);
+//    cout << endl;
+//}
+
 void BinarySearchTree::print() const {
-    inOrderTraversal(root_);
-    cout << endl;
+
+    // Keep track of the nodes, to print in a
+    // breadth first (level order) traversal.
+    std::queue<Node*> q;
+
+    // Seed the jobs with the root.
+    if (root_ != nullptr)
+        q.push(root_);
+
+    // Walk through the tree, adding nodes to the
+    // queue level-by-level.
+    std::cout << "(";
+    while (!q.empty()) {
+
+        // Get the current node from the queue, and remove it.
+        Node* cur = q.front();
+        q.pop();
+
+        // Print out the nodes value.
+        //std::cout << cur->val << '(' << (cur->avlBalance) << ')' <<" ";
+        std::cout << cur->val << " ";
+        // Check to see if the current node has left or right children,
+        // if they exist, add them to the queue.
+        if (cur->left != nullptr)
+            q.push(cur->left);
+        if (cur->right != nullptr)
+            q.push(cur->right);
+    }
+    std::cout << ")" << std::endl;
 }
 
 bool BinarySearchTree::exists(DataType val) const {
@@ -186,6 +219,7 @@ bool BinarySearchTree::remove(DataType val) {
             delete root_;
             root_ = nullptr;
             size_--;
+            updateNodeBalance(root_);
             return true;
         }
 
@@ -194,6 +228,7 @@ bool BinarySearchTree::remove(DataType val) {
         if (isLeftChild) parent->left = nullptr;
         else parent->right = nullptr;
         size_--;
+        updateNodeBalance(root_);
         return true;
     }
 
@@ -206,6 +241,7 @@ bool BinarySearchTree::remove(DataType val) {
             root_ = root_->left;
             delete temp;
             size_--;
+            updateNodeBalance(root_);
             return true;
         }
 
@@ -214,6 +250,7 @@ bool BinarySearchTree::remove(DataType val) {
         else parent->right = current->left;
         delete current;
         size_--;
+        updateNodeBalance(root_);
         return true;
     }
 
@@ -225,6 +262,7 @@ bool BinarySearchTree::remove(DataType val) {
             root_ = root_->right;
             delete temp;
             size_--;
+            updateNodeBalance(root_);
             return true;
         }
 
@@ -233,6 +271,7 @@ bool BinarySearchTree::remove(DataType val) {
         else parent->right = current->right;
         delete current;
         size_--;
+        updateNodeBalance(root_);
         return true;
     }
 
@@ -265,6 +304,7 @@ bool BinarySearchTree::remove(DataType val) {
 
         delete predecessor;
         size_--;
+        updateNodeBalance(root_);
         return true;
 
     }
@@ -273,7 +313,7 @@ bool BinarySearchTree::remove(DataType val) {
 
 }
 
-// FIX THIS
+// CHECK THIS
 void BinarySearchTree::updateNodeBalance(Node *n) {
 
     // update child node balances

@@ -82,7 +82,7 @@ private:
         "Test7: Test depth with many inserts and some removes",
         "Test8: Lots of inserts and removes"
     };
-    
+
 public:
     string getTestDescription(int test_num);
     void runAllTests();
@@ -129,28 +129,28 @@ public:
 //======================================================================
 int main() {
 
-    // The test suite has some tests implemented for you,
-    // and place holders for where you can put your own.
-    BinarySearchTreeTest bst_test;
-
-    // You can check the description for each test to see 
-    // what we will be testing for with the following method.
-    // Alternatively, you can also navigate to the line above 
-    // where the test description is stored to read it.
-    //cout << bst_test.getTestDescription(1) << endl;
-
-    // Tests can be run one at a time to get their result
+//    // The test suite has some tests implemented for you,
+//    // and place holders for where you can put your own.
+//    BinarySearchTreeTest bst_test;
+//
+//    // You can check the description for each test to see
+//    // what we will be testing for with the following method.
+//    // Alternatively, you can also navigate to the line above
+//    // where the test description is stored to read it.
+//    //cout << bst_test.getTestDescription(1) << endl;
+//
+//    // Tests can be run one at a time to get their result
 //    bool result = bst_test.test1();
 //    cout << "Test1: " << get_status_str(result) << endl;
-
-    // Or you can run all of the tests at once and generate a report.
-    bst_test.runAllTests();
-    bst_test.printReport();
+//
+//    // Or you can run all of the tests at once and generate a report.
+//    bst_test.runAllTests();
+//    bst_test.printReport();
 
     // Uncomment and use this for lab 3.2 when it is released.
-    //AVLTreeTest avl_test;
-    //avl_test.runAllTests();
-    //avl_test.printReport();
+    AVLTreeTest avl_test;
+    avl_test.runAllTests();
+    avl_test.printReport();
 
     return 0;
 }
@@ -352,7 +352,7 @@ bool BinarySearchTreeTest::test6() {
 
 // Test 7: Test depth with many inserts and some removes
 bool BinarySearchTreeTest::test7() {
-    
+
     // Test set up.
     BinarySearchTree bst;
 
@@ -457,7 +457,11 @@ bool AVLTreeTest::test1() {
     BinarySearchTree::DataType in[3] = {1, 2, 3};
     for (auto val : in) {
         ASSERT_TRUE(avl.insert(val))
+        //avl.print();
     }
+
+    //avl.print();
+    //cout << avl.root_->right->val << endl; // tree shape is 1->2->3 all to the right
 
     // Check that a left rotation occurred.
     string expected_tree1 = "2 1 3";
@@ -466,6 +470,8 @@ bool AVLTreeTest::test1() {
 
     // Add additional nodes and check that another left rotation occurred.
     ASSERT_TRUE(avl.insert(7) && avl.insert(11))
+
+    //avl.print();
 
     // Check the new tree representation.
     string expected_tree2 = "2 1 7 3 11";
@@ -478,7 +484,7 @@ bool AVLTreeTest::test1() {
 
 // Test 2: Test single right rotation
 bool AVLTreeTest::test2() {
-    
+
     // Test set up.
     AVLTree avl;
 
@@ -515,10 +521,13 @@ bool AVLTreeTest::test3() {
     BinarySearchTree::DataType in[3] = {8, 1, 3};
     for (auto val : in) {
         ASSERT_TRUE(avl.insert(val))
+        avl.print();
     }
 
     // Check that a left-right rotation occurred.
     string expected_tree1 = "3 1 8";
+    avl.print();
+
     string tree_level_order1 = breadthFirstTraversal(avl.root_);
     ASSERT_TRUE(tree_level_order1.compare(expected_tree1) == 0)
 
@@ -536,7 +545,7 @@ bool AVLTreeTest::test3() {
 
 // Test 4: Test double right-left rotation
 bool AVLTreeTest::test4() {
-    
+
     // Test set up.
     AVLTree avl;
 
@@ -574,12 +583,12 @@ bool AVLTreeTest::test5() {
     for (auto val : in) {
         ASSERT_TRUE(avl.insert(val))
     }
-    
+
     // Check the new tree representation.
     string expected_tree = "40 15 82 11 23 69 87 21 26 42";
     string tree_level_order = breadthFirstTraversal(avl.root_);
     ASSERT_TRUE(tree_level_order.compare(expected_tree) == 0)
-    
+
     // Return true to signal all tests passed.
     return true;
 }
