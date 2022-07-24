@@ -39,12 +39,10 @@ BinarySearchTree::~BinarySearchTree() {
 
     while (current->left != nullptr) {
         remove(current->left->val);
-        print();
     }
     while (current->right != nullptr) {
 
         remove(current->right->val);
-        print();
     }
 
     delete root_;
@@ -178,7 +176,7 @@ bool BinarySearchTree::insert(DataType val) {
     if (val < parent->val) parent->left = new Node(val);
     else parent->right = new Node(val);
     size_++;
-    updateNodeBalance(root_);
+    //updateNodeBalance(root_);
     return true;
 
 }
@@ -219,7 +217,7 @@ bool BinarySearchTree::remove(DataType val) {
             delete root_;
             root_ = nullptr;
             size_--;
-            updateNodeBalance(root_);
+            //updateNodeBalance(root_);
             return true;
         }
 
@@ -228,7 +226,7 @@ bool BinarySearchTree::remove(DataType val) {
         if (isLeftChild) parent->left = nullptr;
         else parent->right = nullptr;
         size_--;
-        updateNodeBalance(root_);
+        //updateNodeBalance(root_);
         return true;
     }
 
@@ -241,7 +239,7 @@ bool BinarySearchTree::remove(DataType val) {
             root_ = root_->left;
             delete temp;
             size_--;
-            updateNodeBalance(root_);
+            //updateNodeBalance(root_);
             return true;
         }
 
@@ -250,7 +248,7 @@ bool BinarySearchTree::remove(DataType val) {
         else parent->right = current->left;
         delete current;
         size_--;
-        updateNodeBalance(root_);
+        //updateNodeBalance(root_);
         return true;
     }
 
@@ -262,7 +260,7 @@ bool BinarySearchTree::remove(DataType val) {
             root_ = root_->right;
             delete temp;
             size_--;
-            updateNodeBalance(root_);
+            //updateNodeBalance(root_);
             return true;
         }
 
@@ -271,7 +269,7 @@ bool BinarySearchTree::remove(DataType val) {
         else parent->right = current->right;
         delete current;
         size_--;
-        updateNodeBalance(root_);
+        //updateNodeBalance(root_);
         return true;
     }
 
@@ -304,7 +302,7 @@ bool BinarySearchTree::remove(DataType val) {
 
         delete predecessor;
         size_--;
-        updateNodeBalance(root_);
+        //updateNodeBalance(root_);
         return true;
 
     }
@@ -313,17 +311,17 @@ bool BinarySearchTree::remove(DataType val) {
 
 }
 
-// CHECK THIS
-void BinarySearchTree::updateNodeBalance(Node *n) {
-
-    // update child node balances
-    if (n->left != nullptr) updateNodeBalance(n->left);
-    if (n->right != nullptr) updateNodeBalance(n->right);
-
-    // update current node's balance
-    int leftBalance = 0, rightBalance = 0;
-    if (n->left != nullptr) leftBalance = getNodeDepth(n->left);
-    if (n->right != nullptr) rightBalance = getNodeDepth(n->right);
-
-    n->avlBalance = abs(leftBalance-rightBalance);
-}
+//// CHECK THIS
+//void BinarySearchTree::updateNodeBalance(Node *n) {
+//
+//    // update child node balances
+//    if (n->left != nullptr) updateNodeBalance(n->left);
+//    if (n->right != nullptr) updateNodeBalance(n->right);
+//
+//    // update current node's balance
+//    int leftBalance = 0, rightBalance = 0;
+//    if (n->left != nullptr) leftBalance = getNodeDepth(n->left);
+//    if (n->right != nullptr) rightBalance = getNodeDepth(n->right);
+//
+//    n->avlBalance = abs(leftBalance-rightBalance);
+//}

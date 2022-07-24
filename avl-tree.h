@@ -16,7 +16,7 @@ public:
 private:
 
     bool isBalanced(Node* node); // function to determine whether the tree is balanced
-    void balanceTree(Node* root, Node* just_inserted); // function to balance the tree
+    void balanceSubTree(Node* alpha); // function to balance a subtree
     Node* search(Node* root, DataType val); // function that returns a pointer to a given Node
     Node* rotateRight(Node* root);
     Node* rotateLeft(Node* root);

@@ -521,12 +521,12 @@ bool AVLTreeTest::test3() {
     BinarySearchTree::DataType in[3] = {8, 1, 3};
     for (auto val : in) {
         ASSERT_TRUE(avl.insert(val))
-        avl.print();
+        //avl.print();
     }
 
     // Check that a left-right rotation occurred.
     string expected_tree1 = "3 1 8";
-    avl.print();
+    //avl.print();
 
     string tree_level_order1 = breadthFirstTraversal(avl.root_);
     ASSERT_TRUE(tree_level_order1.compare(expected_tree1) == 0)
@@ -584,6 +584,7 @@ bool AVLTreeTest::test5() {
         ASSERT_TRUE(avl.insert(val))
     }
 
+
     // Check the new tree representation.
     string expected_tree = "40 15 82 11 23 69 87 21 26 42";
     string tree_level_order = breadthFirstTraversal(avl.root_);
@@ -605,10 +606,15 @@ bool AVLTreeTest::test6() {
         ASSERT_TRUE(avl.insert(val))
     }
 
+    avl.print();
+
     // Try removing some nodes to see how the balance changes.
     ASSERT_TRUE(avl.remove(87))
+    avl.print();
     ASSERT_TRUE(avl.remove(82))
+    avl.print();
     ASSERT_TRUE(avl.remove(69))
+    avl.print();
 
     // Check the resulting tree.
     string expected_tree1 = "23 15 40 11 21 26 42";
@@ -617,8 +623,11 @@ bool AVLTreeTest::test6() {
 
     // Remove additional nodes.
     ASSERT_TRUE(avl.remove(11))
+    avl.print(); // good here
     ASSERT_TRUE(avl.remove(15))
+    avl.print(); // good here
     ASSERT_TRUE(avl.remove(21))
+    avl.print();
 
     // Check the resulting tree.
     string expected_tree2 = "40 23 42 26";
