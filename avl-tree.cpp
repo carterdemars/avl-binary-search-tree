@@ -8,11 +8,9 @@
  *
  */
 int height(AVLTree::Node *T){
-    if(T == nullptr) return -1;
+    if (T == nullptr) return -1;
     else if (T->left == nullptr && T->right == nullptr) return 0;
-    else {
-        return 1 + std::max(height(T->left), height(T->right));
-    }
+    else return 1 + std::max(height(T->left), height(T->right));
 }
 
 /** Returns whether a given node is balanced
