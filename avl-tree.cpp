@@ -2,7 +2,11 @@
 #include "avl-tree.h"
 #include <stack>
 
-// function to get the height of a node
+
+/**
+ * Returns the max height of a given node
+ *
+ */
 int height(AVLTree::Node *T){
     if(T == nullptr) return -1;
     else if (T->left == nullptr && T->right == nullptr) return 0;
@@ -11,18 +15,23 @@ int height(AVLTree::Node *T){
     }
 }
 
-bool AVLTree::isBalanced(AVLTree::Node *N)
+/** Returns whether a given node is balanced
+ *
+ */
+bool AVLTree::isBalanced(AVLTree::Node *T)
 {
-    if (N == nullptr) return true;
-    return abs(height(N->left) - height(N->right)) < 2;
+    if (T == nullptr) return true;
+    return abs(height(T->left) - height(T->right)) < 2;
 }
 
 
-// function to get a pointer for given node
-// assume it will never be called if the node does not exist (since this is checked in insert function)
+/** Returns a pointer to the tree node with a particular value
+ *
+ * - we can assume the search value will always be in the tree, given that this
+ * function is only called after a value is successfully inserted
+*/
 AVLTree::Node* AVLTree::search(AVLTree::Node* root, int val){
 
-    // iterative
     AVLTree::Node* current = root;
 
     while (current != nullptr) {
@@ -34,6 +43,10 @@ AVLTree::Node* AVLTree::search(AVLTree::Node* root, int val){
     return current;
 }
 
+
+/**
+ * Balances an unbalanced subtree after a node is removed
+ */
 void AVLTree::balanceSubTree(Node* alpha) {
 
     // find the root of the subtree of alpha with the greatest height
@@ -49,17 +62,20 @@ void AVLTree::balanceSubTree(Node* alpha) {
     // Case 1: If A < alpha and B < A (or left/right same height)
     if (A == alpha->left && (B == A->left || height(A->left) == height(A->right))) rotateRight(alpha);
 
-        // Case 2: If A > alpha and B > A (or left/right same height)
+    // Case 2: If A > alpha and B > A (or left/right same height)
     else if (A == alpha->right && (B == A->right || height(A->left) == height(A->right))) rotateLeft(alpha);
 
-        // Case 3: If A < alpha and B > A
+    // Case 3: If A < alpha and B > A
     else if (A == alpha->left && B == A->right) rotateLeftRight(alpha);
 
-        // Case 4: If A > alpha and B < A
+    // Case 4: If A > alpha and B < A
     else if (A == alpha->right && B == A->left) rotateRightLeft(alpha);
 
 }
 
+/**
+ * AVL Insert function that maintains the balance of a tree after inserting a node
+ */
 bool AVLTree::insert(DataType val) {
 
     // inserts value and returns false is not inserted
@@ -68,29 +84,23 @@ bool AVLTree::insert(DataType val) {
     // get the pointer for the node you just inserted
     Node* root = this->getRootNode();
     Node* just_inserted = search(root, val);
-//    this->print();
-    // check if tree is balanced, and balance it if not
-    //if (!isBalanced(root)) balanceTree(root, just_inserted);
-    //balanceTree(root, just_inserted);
-//    // update Node Balances
-//    this->updateNodeBalance(getRootNode());
-
-    // return whether the tree was successfully balanced
-    //return isBalanced(this->getRootNode());
 
     // Special case: If the node just_inserted is the root node, then the tree will be balanced
     if (just_inserted->val == root->val) return true;
 
     // General case: We must find the pointer to the unbalanced ancestor that is closest to the node just_inserted.
     Node* temp = root;
-    Node* temp_parent = nullptr;
+    Node* temp_parent;
     Node* alpha = nullptr;
 
+    // loop through the ancestors of the inserted node (just_inserted)
     do {
         temp_parent = temp;
-        if(just_inserted->val > temp->val) temp = temp->right;
+
+        if (just_inserted->val > temp->val) temp = temp->right;
         else if (just_inserted->val < temp->val) temp =  temp->left;
-        //now, check if temp_parent is unbalanced.
+
+        // determine whether this particular ancestor is unbalanced
         int leftHeight = height(temp_parent->left);
         int rightHeight = height(temp_parent->right);
         if( abs(leftHeight - rightHeight) >= 2 ) alpha = temp_parent;
@@ -108,11 +118,9 @@ bool AVLTree::insert(DataType val) {
     return true;
 }
 
-
-//void AVLTree::balanceTree(Node* root) {
-//
-//}
-
+/**
+ * AVL Remove function that maintains the balance of a tree after removing a node
+ */
 bool AVLTree::remove(DataType val) {
 
     // removes value and returns false if not removed
@@ -132,73 +140,42 @@ bool AVLTree::remove(DataType val) {
         else return false; // something has gone wrong and the value was not deleted
     } while (current != nullptr);
 
-
     // get the parent of current
     Node* alpha;
 
     while (!s.empty()) {
-        // get the next ancestor from the stack
-        alpha = s.top();
+        alpha = s.top(); // get the next ancestor from the stack
         s.pop();
 
-        // check if this ancestor is unbalanced, and balance it if not
-        if (!isBalanced(alpha)) balanceSubTree(alpha);
+        if (!isBalanced(alpha)) balanceSubTree(alpha); // check if this ancestor is unbalanced, and balance it if not
     }
 
     return true;
 
 }
 
-//bool AVLTree::isBalanced(Node* node) {
-//
-//    // Base case: if the node has no children, it is balanced
-//    if (node->left == nullptr && node->right == nullptr) return true;
-//
-//    // if left node is null, see if right node has grandchildren
-//    if (node-> left == nullptr && node->right != nullptr) {
-//        return (node->right->left == nullptr && node->right->right == nullptr); // we want no grandchildren
-//    }
-//    // if right node is null, see if left node has grandchildren
-//    else if (node-> left != nullptr && node->right == nullptr) {
-//        return (node->left->left == nullptr && node->left->right == nullptr); // we want no grandchildren
-//    }
-//    else { // check both child nodes
-//        return isBalanced(node->left) && isBalanced(node->right);
-//    }
-//
-//}
 
 
+void AVLTree::rotateRight(Node* alpha) {
 
-AVLTree::Node* AVLTree::rotateRight(Node* alpha) {
-//    Node* A = alpha->left;
-//    Node* B = A->right;
-//    A->right = alpha;
-//    alpha->left = B;
-
-    //Input is alpha
-    //A is alpha's left
+    // perform right rotation
     Node** pT = getRootNodeAddress();
     Node *A = alpha->left;
-
-    //alphas left = A's right
     alpha->left = A->right;
-
-    //A's right = alpha
     A->right = alpha;
 
-    //If alpha was the root of the whole tree, make A to be the new root.
+    // If alpha was the root of the whole tree, make A to be the new root.
     if (*pT == alpha) {
         *pT = A;
     }
     else {
-        //Let alpha's parent take A as the new child.
 
-        //find 	alphas parent
+        // find the parent of alpha
         Node *temp = *pT;
         Node **parentPointerToAlpha = nullptr;
+
         do{
-            if(alpha->val > temp->val)  {
+            if (alpha->val > temp->val)  {
                 parentPointerToAlpha = &temp->right;
                 temp = temp->right;
             }
@@ -206,43 +183,34 @@ AVLTree::Node* AVLTree::rotateRight(Node* alpha) {
                 parentPointerToAlpha = &temp->left;
                 temp = temp->left;
             }
-        }
-        while (temp->val != alpha->val);
+        } while (temp->val != alpha->val);
 
+        // set alpha's parent to be the parent of A
         *parentPointerToAlpha = A;
     }
 }
 
-AVLTree::Node* AVLTree::rotateLeft(Node* alpha) {
-//    Node* A = alpha->right;
-//    Node* B = A->left;
-//    A->left = alpha;
-//    alpha->right = B;
-//    return A;
+void AVLTree::rotateLeft(Node* alpha) {
 
+    // perform left rotation
     Node** pT = getRootNodeAddress();
-    //A is alpha's right
     Node *A = alpha->right;
-
-    //alphas right = A's left
     alpha->right = A->left;
-
-    //A's left = alpha
     A->left = alpha;
 
 
-    //If alpha was the root of the whole tree, make A to be the new root.
+    // If alpha was the root of the whole tree, make A to be the new root.
     if (*pT == alpha) {
         *pT = A;
     }
     else {
-        //Let alpha's parent take A as the new child.
 
-        //find 	alphas parent
+        // find the parent of alpha
         Node *temp = *pT;
         Node **parentPointerToAlpha = nullptr;
+
         do{
-            if(alpha->val > temp->val)  {
+            if (alpha->val > temp->val)  {
                 parentPointerToAlpha = &temp->right;
                 temp = temp->right;
             }
@@ -250,45 +218,22 @@ AVLTree::Node* AVLTree::rotateLeft(Node* alpha) {
                 parentPointerToAlpha = &temp->left;
                 temp = temp->left;
             }
-        }
-        while (temp->val != alpha->val);
+        } while (temp->val != alpha->val);
 
+        // set alpha's parent to be the parent of A
         *parentPointerToAlpha = A;
     }
 }
 
-AVLTree::Node* AVLTree::rotateLeftRight(Node* alpha) {
-//    Node* A = alpha->left;
-//    alpha->left = rotateLeft(A);
-//    return rotateRight(alpha);
-
-//Input is alpha
-
-    //A is alpha's left
+void AVLTree::rotateLeftRight(Node* alpha) {
     Node *A = alpha->left;
-
-    //B is A's right
-
-
-    //Call single left rotation with input (A)
     rotateLeft(A);
-
-    //Call single right rotation with input (alpha)
     rotateRight(alpha);
 }
 
-AVLTree::Node* AVLTree::rotateRightLeft(Node* alpha) {
-//    Node* A = alpha->right;
-//    alpha->right = rotateRight(A);
-//    return rotateLeft(alpha);
-
-    //A is alpha's right
+void AVLTree::rotateRightLeft(Node* alpha) {
     Node *A = alpha->right;
-
-    //Call single right rotation with input (A)
     rotateRight(A);
-
-    //Call single left rotation with input (alpha)
     rotateLeft(alpha);
 }
 

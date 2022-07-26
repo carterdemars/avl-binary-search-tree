@@ -606,15 +606,15 @@ bool AVLTreeTest::test6() {
         ASSERT_TRUE(avl.insert(val))
     }
 
-    avl.print();
+    //avl.print();
 
     // Try removing some nodes to see how the balance changes.
     ASSERT_TRUE(avl.remove(87))
-    avl.print();
+    //avl.print();
     ASSERT_TRUE(avl.remove(82))
-    avl.print();
+    //avl.print();
     ASSERT_TRUE(avl.remove(69))
-    avl.print();
+    //avl.print();
 
     // Check the resulting tree.
     string expected_tree1 = "23 15 40 11 21 26 42";
@@ -623,11 +623,11 @@ bool AVLTreeTest::test6() {
 
     // Remove additional nodes.
     ASSERT_TRUE(avl.remove(11))
-    avl.print(); // good here
+    //avl.print(); // good here
     ASSERT_TRUE(avl.remove(15))
-    avl.print(); // good here
+    //avl.print(); // good here
     ASSERT_TRUE(avl.remove(21))
-    avl.print();
+    //avl.print();
 
     // Check the resulting tree.
     string expected_tree2 = "40 23 42 26";

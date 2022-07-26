@@ -5,7 +5,7 @@
 
 class AVLTree : public BinarySearchTree {
 public:
-    // Overriden insert and remove functions
+    // Overridden insert and remove functions
     // Do not modify these definitions
 
     // The AVL tree should be kept balanced after calling just insert or remove.
@@ -15,13 +15,13 @@ public:
     // Define additional functions and attributes below if you need
 private:
 
-    bool isBalanced(Node* node); // function to determine whether the tree is balanced
+    static bool isBalanced(Node* node); // function to determine whether the tree is balanced
     void balanceSubTree(Node* alpha); // function to balance a subtree
-    Node* search(Node* root, DataType val); // function that returns a pointer to a given Node
-    Node* rotateRight(Node* root);
-    Node* rotateLeft(Node* root);
-    Node* rotateLeftRight(Node* root);
-    Node* rotateRightLeft(Node* root);
+    static Node* search(Node* root, DataType val); // function that returns a pointer to a given Node
+    void rotateRight(Node* root);
+    void rotateLeft(Node* root);
+    void rotateLeftRight(Node* root);
+    void rotateRightLeft(Node* root);
 };
 
 #endif  // LAB3_AVL_TREE_H
