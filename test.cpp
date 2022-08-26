@@ -1,11 +1,3 @@
-/*======================================================================
-** You can use this file to test if your code is working
-** properly by designing your own test case and test code.
-** 
-** You are allowed to modify this file as much as you would like.
-** For grading, we will use our own filled version.
-**======================================================================*/
-
 #include <iostream>
 #include <queue>
 #include <sstream>
@@ -129,25 +121,6 @@ public:
 //======================================================================
 int main() {
 
-//    // The test suite has some tests implemented for you,
-//    // and place holders for where you can put your own.
-//    BinarySearchTreeTest bst_test;
-//
-//    // You can check the description for each test to see
-//    // what we will be testing for with the following method.
-//    // Alternatively, you can also navigate to the line above
-//    // where the test description is stored to read it.
-//    //cout << bst_test.getTestDescription(1) << endl;
-//
-//    // Tests can be run one at a time to get their result
-//    bool result = bst_test.test1();
-//    cout << "Test1: " << get_status_str(result) << endl;
-//
-//    // Or you can run all of the tests at once and generate a report.
-//    bst_test.runAllTests();
-//    bst_test.printReport();
-
-    // Uncomment and use this for lab 3.2 when it is released.
     AVLTreeTest avl_test;
     avl_test.runAllTests();
     avl_test.printReport();

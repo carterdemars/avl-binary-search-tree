@@ -5,7 +5,6 @@
 
 /**
  * Returns the max height of a given node
- *
  */
 int height(AVLTree::Node *T){
     if (T == nullptr) return -1;
@@ -13,8 +12,8 @@ int height(AVLTree::Node *T){
     else return 1 + std::max(height(T->left), height(T->right));
 }
 
-/** Returns whether a given node is balanced
- *
+/**
+ * Returns whether a given node is balanced
  */
 bool AVLTree::isBalanced(AVLTree::Node *T)
 {
@@ -25,7 +24,7 @@ bool AVLTree::isBalanced(AVLTree::Node *T)
 
 /** Returns a pointer to the tree node with a particular value
  *
- * - we can assume the search value will always be in the tree, given that this
+ * we can assume the search value will always be in the tree, given that this
  * function is only called after a value is successfully inserted
 */
 AVLTree::Node* AVLTree::search(AVLTree::Node* root, int val){

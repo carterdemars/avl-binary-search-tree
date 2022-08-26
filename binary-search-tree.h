@@ -3,7 +3,6 @@
 
 class BinarySearchTree {
 public:
-    // Can be seen externally as BinarySearchTree::DataType
     typedef int DataType;
 
     struct Node {
@@ -13,14 +12,14 @@ public:
         DataType val;    // Value of the node.
         Node* left;      // Pointer to the left node.
         Node* right;     // Pointer to the right node.
-        int avlBalance;  // you may or may not use it for AVL trees (optional)
+        int avlBalance;
     };
 
 private:
     friend class BinarySearchTreeTest;
     friend class AVLTreeTest;
 
-    // Optional function that recursively gets the maximum depth for a given node.
+    // function that recursively gets the maximum depth for a given node.
     int getNodeDepth(Node* n) const;
 
     // Pointer to the root node of the tree.
@@ -73,7 +72,6 @@ public:
     // Returns the root node pointer address
     Node** getRootNodeAddress();
 
-
     // Inserts the value val into the tree. Returns false if val already exists in
     // the tree, and true otherwise.
     bool insert(DataType val);
@@ -86,4 +84,4 @@ public:
     void updateNodeBalance(Node* n); //?
 };
 
-#endif  // LAB3_BINARY_SEARCH_TREE_H
+#endif

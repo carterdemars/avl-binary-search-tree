@@ -7,5 +7,4 @@ project(mte140-L3)
 set (CMAKE_CXX_FLAGS "-std=c++11 -Wall ${CMAKE_CXX_FLAGS}")
 
 # create the main executable
-## add additional .cpp files if needed
 add_executable(mte140-L3 binary-search-tree.cpp avl-tree.cpp test.cpp)
